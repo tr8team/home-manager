@@ -17,7 +17,7 @@ To use this home-manager configuration, home-manager is needed. Here, I will doc
 #### Install Home-Manager
 
 ```bash
-https://raw.githubusercontent.com/tr8team/home-manager/main/scripts/home-manager.sh
+curl -L https://raw.githubusercontent.com/tr8team/home-manager/main/scripts/home-manager.sh | sh
 ```
 
 #### Edit your information
