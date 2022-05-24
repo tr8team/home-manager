@@ -93,7 +93,7 @@ let tools = [
         cat = "bat -p";
         hms = "home-manager switch --impure --flake $HOME/home-manager-config#$USER";
         hmsz = "home-manager switch --impure --flake $HOME/home-manager-config#$USER && source ~/.zshrc";
-        mfa = "awsmfa -u <user> -t"
+        mfa = "awsmfa auth -u <user> -t"
       };
 
       plugins = [
