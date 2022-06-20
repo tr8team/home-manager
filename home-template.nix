@@ -1,11 +1,11 @@
 { config, pkgs, userinfo, atomi, ... }:
 
-let complex =  import ./complex.nix { inherit pkgs; }; in 
+let complex = import ./complex.nix { inherit pkgs; }; in
 
 with (
-  with complex; 
-  { inherit setup-devbox-server customDir linuxService liveAutoComplete;  }
-); 
+  with complex;
+  { inherit setup-devbox-server customDir linuxService liveAutoComplete; }
+);
 
 with pkgs;
 
@@ -41,17 +41,15 @@ let tools = [
       enable = true;
       userEmail = "${userinfo.email}";
       userName = "${userinfo.gituser}";
-      
+
       extraConfig = {
         init.defaultBranch = "main";
-        pull.rebase = false;
-        pull.ff = "only";
       };
-      
+
       includes = [
         { path = "$HOME/.gitconfig"; }
       ];
-      
+
       lfs = {
         enable = true;
       };
@@ -59,14 +57,18 @@ let tools = [
     };
 
     zsh = {
-
       enable = true;
       enableCompletion = false;
-
       # ZSH configurations
       initExtra = ''
+        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
+          . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
+        fi
         if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
         PATH="$PATH:/$HOME/.local/bin"
+
+
+
         export NIXPKGS_ALLOW_UNFREE=1
         unalias gm
         export AWS_PROFILE=default-mfa
