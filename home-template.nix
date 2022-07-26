@@ -32,6 +32,22 @@ let tools = [
 
 ]; in
 {
+  home.file = {
+    direnv = {
+      target = ".config/direnv/lib/invalidate.sh";
+      executable = true;
+      text = ''
+        #!/usr/bin/env bash
+
+        use_atomi_nix() {
+            direnv_load nix-shell --show-trace "$@" --run "$(join_args "$direnv" dump)"
+            if [[ $# == 0 ]]; then
+              watch_file default.nix shell.nix nix/env.nix nix/packages.nix nix/shells.nix
+            fi
+        }
+      '';
+    };
+  };
   home.packages = (if userinfo.remote then tools else tools ++ apps);
   services = (if userinfo.linux then linuxService else { });
   programs = complex.programs // {
@@ -68,7 +84,7 @@ let tools = [
         PATH="$PATH:/$HOME/.local/bin"
 
 
-
+        zstyle ':completion:*:*:man:*:*' menu select=long search
         export NIXPKGS_ALLOW_UNFREE=1
         unalias gm
         export AWS_PROFILE=default-mfa
@@ -96,6 +112,7 @@ let tools = [
         hms = "home-manager switch --impure --flake $HOME/home-manager-config#$USER";
         hmsz = "home-manager switch --impure --flake $HOME/home-manager-config#$USER && source ~/.zshrc";
         mfa = "awsmfa auth -u <user> -t";
+
       };
 
       plugins = [
