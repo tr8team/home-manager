@@ -60,6 +60,7 @@ let tools = [
 
       extraConfig = {
         init.defaultBranch = "main";
+        merge.tool = "opendiff";
       };
 
       includes = [
