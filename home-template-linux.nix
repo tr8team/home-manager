@@ -96,6 +96,8 @@ with pkgs;
         enable = true;
         extraConfig = ''
           ZSH_CUSTOM="${zshCustomPlugins}"
+          zstyle ':completion:*:*:man:*:*' menu select=long search
+          zstyle ':autocomplete:*' recent-dirs zoxide
         '';
         plugins = [
           "git"

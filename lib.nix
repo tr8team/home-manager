@@ -14,8 +14,8 @@
     src = pkgs.fetchFromGitHub {
       owner = "marlonrichert";
       repo = "zsh-autocomplete";
-      rev = "39423112977a8c520962bc11c46ee31e7ca873ca";
-      sha256 = "sha256-+UziTYsjgpiumSulrLojuqHtDrgvuG91+XNiaMD7wIs=";
+      rev = "f52f45a49d2df31e7d7aff1fb599c89b1eacbcef";
+      sha256 = "sha256-SmLnp+ccqtYQEzIUbHcyB8Y+mR/6gcf4zjQw9rDGgSg=";
     };
   };
 }

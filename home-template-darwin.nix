@@ -61,6 +61,7 @@ let output = {
       userName = "${userinfo.gituser}";
       extraConfig = {
         init.defaultBranch = "main";
+        push.autoSetupRemote = "true";
       };
       lfs = {
         enable = true;
@@ -82,6 +83,8 @@ let output = {
         enable = true;
         extraConfig = ''
           ZSH_CUSTOM="${zshCustomPlugins}"
+          zstyle ':completion:*:*:man:*:*' menu select=long search
+          zstyle ':autocomplete:*' recent-dirs zoxide
         '';
         plugins = [
           "git"
