@@ -8,6 +8,7 @@ with pkgs;
   ];
 
   dev = [
+    jq
     pls
     git
   ];
