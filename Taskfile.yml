@@ -3,6 +3,10 @@ includes:
   fmt: ./scripts/fmt.yml
   lint: ./scripts/lint.yml
 tasks:
+  push:cache:
+    desc: Update Cachix
+    cmds:
+      - nix build --impure --json $HOME/gotrade-home-manager#homeConfigurations.$USER.activationPackage | jq -r '.[].outputs | to_entries[].value' | cachix push gotrade-home-manager
   lint:
     desc: Lint all files
     cmds:

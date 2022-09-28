@@ -24,20 +24,18 @@ curl -L https://raw.githubusercontent.com/tr8team/home-manager/main/scripts/home
 
 Go to `user_config.nix` and edit the fields
 
-| Field     | Description                                                     | Values          |
-| --------- | --------------------------------------------------------------- | --------------- |
-| `user`    | Your machine's user. You can check this by running `echo $USER` | any             |
-| `email`   | Your Github and git's email (must be same)                      | any valid email |
-| `gituser` | Github and git's name (must be the same)  | any valid username/name |
-| `remote` | Is it a remote machine. Remote machines have no GUI interface | `boolean` (`true`/`false`) | 
-| `linux` | Is the machine Linux. Setting this to `true` will start linux services and use `/home` as home directory prefix. Setting this to `false` will disable linux services and use `/Users` as home directory prefix | `boolean` (`true`/`false`) |
-| `system` | Operating system enums | See [Operating System Enums](#operating-system-enums) | 
+| Field     | Description                                                     | Values                                                |
+| --------- | --------------------------------------------------------------- | ----------------------------------------------------- |
+| `user`    | Your machine's user. You can check this by running `echo $USER` | any                                                   |
+| `email`   | Your Github and git's email (must be same)                      | any valid email                                       |
+| `gituser` | Github and git's name (must be the same)                        | any valid username/name                               |
+| `system`  | Operating system enums                                          | See [Operating System Enums](#operating-system-enums) |
 
 #### Operating System Enums
-| Operating System | Value | 
-| --- | --- | 
-| M1 MacBook | `aarch64-darwin` |
-| Intel MacBook | `x86_64-darwin` |
-| Intel Linux | `x86_64-linux` |
-| ARM Linux | `aarch64-linux` |
 
+| Operating System | Value            |
+| ---------------- | ---------------- |
+| M1 MacBook       | `aarch64-darwin` |
+| Intel MacBook    | `x86_64-darwin`  |
+| Intel Linux      | `x86_64-linux`   |
+| ARM Linux        | `aarch64-linux`  |

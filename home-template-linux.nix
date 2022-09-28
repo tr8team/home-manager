@@ -1,102 +1,101 @@
 { config, pkgs, userinfo, atomi, ... }:
 
-let complex = import ./complex.nix { inherit pkgs; }; in
+##############################
+# Import additional modules  #
+##############################
 
-with (
-  with complex;
-  { inherit setup-devbox-server customDir linuxService liveAutoComplete; }
-);
-
+let lib = import ./lib.nix { inherit pkgs; }; in
+with (with lib;{ inherit zshCustomPlugins liveAutoComplete; });
 with pkgs;
 
-# GUI applications
-let apps = [
-  vscode
-]; in
-
-# CLI tools
-let tools = [
-
-  # Core Utils
-  uutils-coreutils
-
-  # DevOps tooling
-  cachix
-  kubectl
-  docker
-  awscli2
-  atomi.awsmfa
-
-  # Setup
-  setup-devbox-server
-
-]; in
 {
-  home.file = {
-    direnv = {
-      target = ".config/direnv/lib/invalidate.sh";
-      executable = true;
-      text = ''
-        #!/usr/bin/env bash
+  #########################
+  # Install packages here #
+  #########################
+  home.packages = [
 
-        use_atomi_nix() {
-            direnv_load nix-shell --show-trace "$@" --run "$(join_args "$direnv" dump)"
-            if [[ $# == 0 ]]; then
-              watch_file default.nix shell.nix nix/env.nix nix/packages.nix nix/shells.nix
-            fi
-        }
-      '';
+    # System requirements
+    uutils-coreutils
+
+    # ESD Tooling
+    kubernetes-helm
+    kubelogin-oidc
+    cachix
+    kubectl
+    docker
+    awscli2
+
+    # apps
+    vscode
+  ];
+
+  ############
+  # Services #
+  ############
+  services = {
+    gpg-agent = {
+      enable = true;
+      enableSshSupport = true;
+      enableExtraSocket = true;
     };
   };
-  home.packages = (if userinfo.remote then tools else tools ++ apps);
-  services = (if userinfo.linux then linuxService else { });
-  programs = complex.programs // {
+
+  ##################################################
+  # Addtional environment variables for your shell #
+  ##################################################
+  home.sessionVariables = {
+    NIXPKGS_ALLOW_UNFREE = "1";
+  };
+
+  #################################
+  # Addtional PATH for your shell #
+  #################################
+  home.sessionPath = [
+    "$HOME/.local/bin"
+    "$HOME/.krew/bin"
+  ];
+
+  ##########################
+  # Program Configurations #
+  ##########################
+  programs = {
+
     # Git Configurations
     git = {
-
       enable = true;
       userEmail = "${userinfo.email}";
       userName = "${userinfo.gituser}";
-
       extraConfig = {
         init.defaultBranch = "main";
-        merge.tool = "opendiff";
       };
-
-      includes = [
-        { path = "$HOME/.gitconfig"; }
-      ];
-
       lfs = {
         enable = true;
       };
-
     };
 
+    # Shell Configurations
     zsh = {
+
       enable = true;
       enableCompletion = false;
-      # ZSH configurations
+
+      # Add ~/.zshrc here
       initExtra = ''
+        # This is to initialize nix
         if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
           . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
         fi
         if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
-        PATH="$PATH:/$HOME/.local/bin"
 
-
+        # This is to fix auto-completion
         zstyle ':completion:*:*:man:*:*' menu select=long search
-        export NIXPKGS_ALLOW_UNFREE=1
-        unalias gm
-        export AWS_PROFILE=default-mfa
       '';
 
       # Oh-my-zsh configurations
-
       oh-my-zsh = {
         enable = true;
         extraConfig = ''
-          ZSH_CUSTOM="${customDir}"
+          ZSH_CUSTOM="${zshCustomPlugins}"
         '';
         plugins = [
           "git"
@@ -112,8 +111,7 @@ let tools = [
         cat = "bat -p";
         hms = "home-manager switch --impure --flake $HOME/home-manager-config#$USER";
         hmsz = "home-manager switch --impure --flake $HOME/home-manager-config#$USER && source ~/.zshrc";
-        mfa = "awsmfa auth -u <user> -t";
-
+        configterm = "POWERLEVEL9K_CONFIG_FILE=\"$HOME/home-manager-config/p10k-config/.p10k.zsh\" p10k configure";
       };
 
       plugins = [
@@ -127,6 +125,7 @@ let tools = [
         liveAutoComplete
       ];
 
+      # ZSH ZPlug Plugins
       zplug = {
         enable = true;
         plugins = [
@@ -155,8 +154,39 @@ let tools = [
         ];
       };
     };
+    # Enable GPG
+    gpg = {
+      enable = true;
+    };
 
+    # Enable SSH
+    ssh = {
+      enable = true;
+    };
 
+    # Enable bat
+    bat = {
+      enable = true;
+    };
+
+    # enable exa
+    exa = {
+      enable = true;
+      enableAliases = true;
+    };
+
+    # enable fzf
+    fzf = {
+      enable = true;
+      enableZshIntegration = true;
+    };
+
+    # enable zoxide
+    zoxide = {
+      enable = true;
+      enableZshIntegration = true;
+      options = [ "--cmd cd" ];
+    };
   };
 
 
