@@ -10,6 +10,7 @@ tasks:
   push:cache:
     desc: Update Cachix
     cmds:
+      - nix flake archive --json | jq -r '.path,(.inputs|to_entries[].value.path)' | cachix push gotrade-home-manager
       - nix build --impure --json $HOME/gotrade-home-manager#homeConfigurations.$USER.activationPackage | jq -r '.[].outputs | to_entries[].value' | cachix push gotrade-home-manager
   lint:
     desc: Lint all files
