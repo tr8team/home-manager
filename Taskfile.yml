@@ -3,6 +3,10 @@ includes:
   fmt: ./scripts/fmt.yml
   lint: ./scripts/lint.yml
 tasks:
+  clean:
+    desc: Remove nix build artifacts
+    cmds:
+      - rm -rf result
   push:shell:cache:
     desc: Update Cachix for development shell
     cmds:

@@ -81,14 +81,6 @@ with pkgs;
 
       # Add ~/.zshrc here
       initExtra = ''
-        # This is to initialize nix
-        if [ -e '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh' ]; then
-          . '/nix/var/nix/profiles/default/etc/profile.d/nix-daemon.sh'
-        fi
-        if [ -e $HOME/.nix-profile/etc/profile.d/nix.sh ]; then . $HOME/.nix-profile/etc/profile.d/nix.sh; fi
-
-        # This is to fix auto-completion
-        zstyle ':completion:*:*:man:*:*' menu select=long search
       '';
 
       # Oh-my-zsh configurations
