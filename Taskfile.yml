@@ -3,6 +3,10 @@ includes:
   fmt: ./scripts/fmt.yml
   lint: ./scripts/lint.yml
 tasks:
+  push:shell:cache:
+    desc: Update Cachix for development shell
+    cmds:
+      - nix-build ./shell.nix | cachix push gotrade-home-manager-shell
   push:cache:
     desc: Update Cachix
     cmds:
