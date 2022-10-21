@@ -98,6 +98,8 @@ let output = {
         alias mfa=update-aws-mfa-token
 
         export GOTRADE_BASTION_IP=\"54.255.27.224\"
+
+        eval "$(rbenv init -)"
       '';
 
       # Oh-my-zsh configurations
