@@ -3,7 +3,7 @@ on:
   push:
 jobs:
   Pre-Commit:
-    runs-on: x64,self-hosted
+    runs-on: self-hosted
     steps:
       - name: Gotrade CI Environment
         uses: kirinnee/atomici-action@v2.1.2
