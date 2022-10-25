@@ -1,0 +1,17 @@
+name: "Checks"
+on:
+  pull_request:
+jobs:
+  Pre-Commit:
+    runs-on: nix
+    steps:
+      - name: Gotrade CI Environment
+        uses: kirinnee/atomici-action@v2.1.2
+
+      - name: Checkout Code
+        uses: actions/checkout@v2.3.4
+
+      - name: Run Pre-commit checks
+        run: nix-shell nix/shells.nix -A ci --run "echo hello"
+        env:
+          NIXPKGS_ALLOW_UNFREE: "1"
