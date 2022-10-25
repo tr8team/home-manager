@@ -1,9 +1,9 @@
 name: "Checks"
 on:
-  pull_request:
+  push:
 jobs:
   Pre-Commit:
-    runs-on: nix
+    runs-on: x64,self-hosted
     steps:
       - name: Gotrade CI Environment
         uses: kirinnee/atomici-action@v2.1.2
