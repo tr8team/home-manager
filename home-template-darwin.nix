@@ -29,7 +29,6 @@ let output = {
     cachix
     kubectl
     docker
-    awscli2
 
     # apps
     vscode
@@ -90,7 +89,7 @@ let output = {
         [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
         [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-        export AWS_PROFILE=default-mfa
+        export AWS_PROFILE=default
         function update-aws-mfa-token() {
           bash ~/update-aws-cli-mfa-token.sh -u tr8ibelio -t $1
           echo "Successfully updated mfa token!"
@@ -98,6 +97,8 @@ let output = {
         alias mfa=update-aws-mfa-token
 
         export GOTRADE_BASTION_IP=\"54.255.27.224\"
+
+        export HISTTIMEFORMAT=%F
 
         eval "$(rbenv init -)"
       '';
@@ -144,6 +145,10 @@ let output = {
         # Alias AWS Prod
         ssm-prod-indogotrade = "aws ssm start-session --target i-078657840f061ce16 --region ap-southeast-3";
         ssm-prod-gotrade-a = "aws ssm start-session --target i-08795e35ca86cdadd";
+
+        # Temporary fix for fastlane iOS upload
+        # https://github.com/fastlane/fastlane/issues/20741
+        ITMSTRANSPORTER_FORCE_ITMS_PACKAGE_UPLOAD = "true";
       };
 
       plugins = [
