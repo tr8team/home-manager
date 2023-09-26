@@ -101,6 +101,9 @@ let output = {
         export HISTTIMEFORMAT=%F
 
         eval "$(rbenv init -)"
+
+        echo "pinentry-program $(brew --prefix)/bin/pinentry-mac" >> ~/.gnupg/gpg-agent.conf
+        killall gpg-agent
       '';
 
       # Oh-my-zsh configurations
